@@ -1,9 +1,10 @@
 from flask import (Flask, g, render_template, flash,
                    redirect, url_for, abort)
 import datetime
+from slugify import slugify
 
 import models
-
+import forms
 
 DEBUG = True
 PORT = 8000
@@ -38,6 +39,31 @@ def index():
 @app.route('/entries')
 def journals():
     return render_template("journal_list.html")
+
+
+# ADD/EDIT JOURNAL
+@app.route('/entries/add', methods=['GET', 'POST'])
+def add_journals():
+    """Add a new album"""
+    form = forms.JournalForm()
+    if form.validate_on_submit():
+        models.Journal.create(title=form.title.data.strip(),
+                              slug=slugify(form.title.data),
+                              date=form.date.data,
+                              time_spent=form.time_spent.data,
+                              content_learned=form.content_learned.data,
+                              resources=form.resources.data)
+        flash("Message posted! Thanks!", "success")
+        return redirect(url_for('index'))
+    return render_template('create.html', form=form)
+
+
+# ADD/EDIT JOURNAL
+@app.route('/entries/edit', methods=['GET', 'PUT'])
+def edit_journals():
+    """Edit album"""
+
+    return render_template('edit.html')
 
 
 if __name__ == "__main__":
