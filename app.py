@@ -66,7 +66,7 @@ def add_journals():
 
 
 # EDIT JOURNAL
-@app.route('/<slug>/edit', methods=['GET', 'PUT'])
+@app.route('/entry/<slug>/edit', methods=['GET', 'PUT'])
 def edit_journals(slug):
     """Edit album"""
     journal = models.Journal.get(models.Journal.slug == slug)
