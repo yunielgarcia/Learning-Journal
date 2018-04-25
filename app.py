@@ -38,7 +38,14 @@ def index():
 # LIST JOURNALS
 @app.route('/entries')
 def journals():
-    return render_template("journal_list.html")
+    journals_list = models.Journal.select()
+    return render_template("journal_list.html", journals=journals_list)
+
+
+@app.route('/entries/<slug>')
+def journals_detail(slug):
+    journal = models.Journal.get(models.Journal.slug == slug)
+    return render_template('detail.html', journal=journal)
 
 
 # ADD/EDIT JOURNAL
@@ -53,7 +60,7 @@ def add_journals():
                               time_spent=form.time_spent.data,
                               content_learned=form.content_learned.data,
                               resources=form.resources.data)
-        flash("Message posted! Thanks!", "success")
+        flash("Journal was saved", "success")
         return redirect(url_for('index'))
     return render_template('create.html', form=form)
 

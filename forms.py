@@ -15,7 +15,7 @@ def title_exists(form, field):
 
 class JournalForm(Form):
     title = StringField('Title', validators=[DataRequired(), Length(min=2), title_exists])
-    date = DateField('Date', format='%Y-%m-%d', validators=[Optional()])
+    date = DateField('Date', format='%Y-%m-%d')
     time_spent = IntegerField('Time Spent', validators=[DataRequired()])
     content_learned = TextAreaField('What You Learned',  validators=[DataRequired()])
     resources = TextAreaField('Resources to Remember', validators=[DataRequired()])

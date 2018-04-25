@@ -5,7 +5,9 @@
                 <div class="notification error">{{ error }}</div>
             {% endfor %}
         {% endif %}
-        {{ field.label.text }}
+        {% if not field.name == 'csrf_token' %}
+            {{ field.label.text }}
+        {% endif %}
         {{ field() }}
     </div>
 {% endmacro %}
