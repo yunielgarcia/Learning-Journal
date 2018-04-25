@@ -1,5 +1,5 @@
 from flask import (Flask, g, render_template, flash,
-                   redirect, url_for, abort)
+                   redirect, url_for)
 import datetime
 from slugify import slugify
 
@@ -42,14 +42,14 @@ def journals():
     return render_template("journal_list.html", journals=journals_list)
 
 
-@app.route('/entries/<slug>')
+@app.route('/details/<slug>')
 def journals_detail(slug):
     journal = models.Journal.get(models.Journal.slug == slug)
     return render_template('detail.html', journal=journal)
 
 
-# ADD/EDIT JOURNAL
-@app.route('/entries/add', methods=['GET', 'POST'])
+# ADD JOURNAL
+@app.route('/entry/add', methods=['GET', 'POST'])
 def add_journals():
     """Add a new album"""
     form = forms.JournalForm()
@@ -65,12 +65,29 @@ def add_journals():
     return render_template('create.html', form=form)
 
 
-# ADD/EDIT JOURNAL
-@app.route('/entries/edit', methods=['GET', 'PUT'])
-def edit_journals():
+# EDIT JOURNAL
+@app.route('/<slug>/edit', methods=['GET', 'PUT'])
+def edit_journals(slug):
     """Edit album"""
-
-    return render_template('edit.html')
+    journal = models.Journal.get(models.Journal.slug == slug)
+    form = forms.JournalForm(title=journal.title,
+                             date=journal.date,
+                             time_spent=journal.time_spent,
+                             content_learned=journal.content_learned,
+                             resources=journal.resources
+                             )
+    if form.validate_on_submit():
+        print('updating')
+        models.Journal.update(title=form.title.data.strip(),
+                              slug=slugify(form.title.data),
+                              date=form.date.data,
+                              time_spent=form.time_spent.data,
+                              content_learned=form.content_learned.data,
+                              resources=form.resources.data)
+        flash("Journal was updated", "success")
+        return redirect(url_for('journals'))
+    print('not updating')
+    return render_template('edit.html', form=form)
 
 
 if __name__ == "__main__":

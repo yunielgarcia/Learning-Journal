@@ -1,5 +1,4 @@
 from peewee import *
-import datetime
 from slugify import slugify
 
 DATABASE = SqliteDatabase('journal.db')
