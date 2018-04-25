@@ -8,7 +8,7 @@ DATABASE = SqliteDatabase('journal.db')
 class Journal(Model):
     slug = CharField(unique=True)
     title = CharField()
-    date = DateTimeField(default=datetime.datetime.now)
+    date = DateField()
     time_spent = IntegerField()
     content_learned = TextField()
     resources = TextField()
@@ -20,11 +20,12 @@ class Journal(Model):
         order_by = ('-date',)
 
     @classmethod
-    def create_journal(cls, title, time_spent, content_learned, resources):
+    def create_journal(cls, title, date, time_spent, content_learned, resources):
         try:
             with DATABASE.transaction():
                 cls.create(
                     slug=slugify(title),
+                    date=date,
                     title=title,
                     time_spent=time_spent,
                     content_learned=content_learned,

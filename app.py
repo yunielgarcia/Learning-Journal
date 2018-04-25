@@ -72,6 +72,7 @@ if __name__ == "__main__":
     try:
         models.Journal.create_journal(
             title="Initial Journal",
+            date=datetime.datetime.now(),
             time_spent=55,
             content_learned="Trying to pass the project",
             resources="Treehouse"
