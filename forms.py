@@ -21,4 +21,12 @@ class JournalForm(Form):
     resources = TextAreaField('Resources to Remember', validators=[DataRequired()])
 
 
+class UpdateEntryForm(Form):
+    title = StringField('Title', validators=[DataRequired(), Length(min=2)])
+    date = DateField('Date', format='%Y-%m-%d')
+    time_spent = IntegerField('Time Spent', validators=[DataRequired()])
+    content_learned = TextAreaField('What You Learned',  validators=[DataRequired()])
+    resources = TextAreaField('Resources to Remember', validators=[DataRequired()])
+
+
 # render_kw={"placeholder": "format: yyyy-mm-dd"}

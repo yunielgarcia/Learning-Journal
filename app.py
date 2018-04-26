@@ -66,27 +66,28 @@ def add_journals():
 
 
 # EDIT JOURNAL
-@app.route('/entry/<slug>/edit', methods=['GET', 'PUT'])
+@app.route('/entry/<slug>/edit', methods=['GET', 'POST'])
 def edit_journals(slug):
-    """Edit album"""
+    """Edit an entry"""
     journal = models.Journal.get(models.Journal.slug == slug)
-    form = forms.JournalForm(title=journal.title,
-                             date=journal.date,
-                             time_spent=journal.time_spent,
-                             content_learned=journal.content_learned,
-                             resources=journal.resources
-                             )
+    form = forms.UpdateEntryForm(title=journal.title,
+                                 date=journal.date,
+                                 time_spent=journal.time_spent,
+                                 content_learned=journal.content_learned,
+                                 resources=journal.resources
+                                 )
     if form.validate_on_submit():
-        print('updating')
-        models.Journal.update(title=form.title.data.strip(),
-                              slug=slugify(form.title.data),
-                              date=form.date.data,
-                              time_spent=form.time_spent.data,
-                              content_learned=form.content_learned.data,
-                              resources=form.resources.data)
+        models.Journal.update(
+            {models.Journal.title: form.title.data.strip(),
+             models.Journal.slug: slugify(form.title.data),
+             models.Journal.date: form.date.data,
+             models.Journal.time_spent: form.time_spent.data,
+             models.Journal.content_learned: form.content_learned.data,
+             models.Journal.resources: form.resources.data
+             }).where(models.Journal.slug == journal.slug).execute()
         flash("Journal was updated", "success")
         return redirect(url_for('journals'))
-    print('not updating')
+
     return render_template('edit.html', form=form)
 
 
