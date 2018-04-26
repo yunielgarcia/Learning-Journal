@@ -31,6 +31,7 @@
 </div>
 <div class="edit">
     <p><a href="{{ url_for('edit_journals', slug=journal.slug) }}">Edit Entry</a></p>
+    <a href="{{ url_for('delete_entry', slug=journal.slug) }}">Delete Entry</a>
 </div>
 
 {% endblock %}

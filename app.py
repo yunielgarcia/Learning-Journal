@@ -1,5 +1,5 @@
 from flask import (Flask, g, render_template, flash,
-                   redirect, url_for)
+                   redirect, url_for, abort)
 import datetime
 from slugify import slugify
 
@@ -89,6 +89,25 @@ def edit_journals(slug):
         return redirect(url_for('journals'))
 
     return render_template('edit.html', form=form)
+
+
+# DELETE
+@app.route('/entry/<slug>/delete')
+def delete_entry(slug):
+    try:
+        entry = models.Journal.get(models.Journal.slug**slug)
+    except models.DoesNotExist:
+        abort(404)
+    else:
+        try:
+            models.Journal.get(
+                slug=slug
+            ).delete_instance()
+        except models.IntegrityError:
+            pass
+        else:
+            flash("You have deleted {}!".format(entry.title), "success")
+    return redirect(url_for('journals'))
 
 
 if __name__ == "__main__":
