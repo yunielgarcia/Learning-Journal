@@ -30,8 +30,10 @@
     </article>
 </div>
 <div class="edit">
-    <p><a href="{{ url_for('edit_journals', slug=journal.slug) }}">Edit Entry</a></p>
-    <a href="{{ url_for('delete_entry', slug=journal.slug) }}">Delete Entry</a>
+    <a class="button icon-right edit-btn" href="{{ url_for('edit_journals', slug=journal.slug) }}">
+        <span>Edit Entry</span>
+        <i class="material-icons">mode edit</i></a>
+    <a href="{{ url_for('delete_entry', slug=journal.slug) }}" style="color: #da3c14;float: right;">Delete Entry</a>
 </div>
 
 {% endblock %}

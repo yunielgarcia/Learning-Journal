@@ -14,6 +14,9 @@ body {
 	margin: 0 auto;
 	padding: 0 25px;
 }
+.content-container {
+	min-height: 300px;
+}
 header .site-header {
 	margin: 0 auto;
 	height: 95px;
@@ -33,7 +36,6 @@ footer {
 	padding: 35px 0;
 	border-top: 2px dotted #678f89;
 }
-
 
 
 /* ==========================================================================
@@ -79,7 +81,6 @@ footer {
 }
 
 
-
 /* ==========================================================================
    Typography
    ========================================================================== */
@@ -102,6 +103,7 @@ h2 {
 h2 a {
 	text-decoration: none;
 	color: #000;
+	text-transform: capitalize;
 }
 h3 {
 	font-size: 18px;
@@ -131,7 +133,6 @@ ul li a {
 }
 
 
-
 /* ==========================================================================
    Page Styles
    ========================================================================== */
@@ -148,8 +149,12 @@ ul li a {
 	margin-bottom: 35px;
 }
 .entry-list article {
-	margin-bottom: 70px;
+	margin-bottom: 30px;
+	padding: 20px;
 	text-align: center;
+}
+#home-list article:hover {
+	background-color: #f3eded;
 }
 .entry-list article:last-child {
 	margin-bottom: 0;
@@ -172,7 +177,7 @@ ul li a {
 	margin-bottom: 40px;
 }
 .edit {
-	padding-bottom: 80px;
+	padding: 80px 15%;
 	text-align: center;
 	margin: 0 auto;
 }
@@ -182,12 +187,17 @@ ul li a {
 	font-size: 18px;
 }
 
+.notification {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #17a284;
+}
 
 
 /* ==========================================================================
    Form Styles
    ========================================================================== */
-
 
 form label {
 	display: block;
@@ -225,12 +235,19 @@ input[type=submit] {
 	margin-right: 5px;
 }
 
-
-
-
-
-
-
+#statement {
+	text-align: center;
+	max-width: 480px;
+	color: #6f3a0a;
+	text-transform: capitalize;
+	margin: 50px auto auto;
+	line-height: 2;
+}
+.edit-btn {
+	background-color: #5f86e6;
+	border-color: #5f86e6;
+	float: left;
+}
 
 
 

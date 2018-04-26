@@ -1,16 +1,15 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="entry-list">
+    <div id="home-list" class="entry-list">
     {% for journal in journals %}
         <article>
             <h2>
-                <a href="{{ url_for('journals_detail', slug=journal.slug) }}">{{ journal.title }}</a>
+                <a class="entry-title" href="{{ url_for('journals_detail', slug=journal.slug) }}">{{ journal.title }}</a>
             </h2>
             <time datetime="{{ journal.date }}">{{ journal.date.strftime('%B %d, %Y') }}</time>
         </article>
     {% endfor %}
-
 </div>
 {% endblock %}
 
