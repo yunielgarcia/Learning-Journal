@@ -8,20 +8,20 @@
 
 <div class="entry-list single">
     <article>
-        <h1>{{ journal.title }}</h1>
-        <time datetime="{{ journal.date }}">{{ journal.date.strftime('%B %d, %Y') }}</time>
+        <h1>{{ entry.title }}</h1>
+        <time datetime="{{ entry.date }}">{{ entry.date.strftime('%B %d, %Y') }}</time>
         <div class="entry">
             <h3>Time Spent: </h3>
-            <p>{{ journal.time_spent }}</p>
+            <p>{{ entry.time_spent }}</p>
         </div>
         <div class="entry">
             <h3>What I Learned:</h3>
-            <p>{{ journal.content_learned }}</p>
+            <p>{{ entry.content_learned }}</p>
         </div>
         <div class="entry">
             <h3>Resources to Remember:</h3>
             <ul>
-                {% for resource in journal.resources.split('\n') %}
+                {% for resource in entry.resources.split('\n') %}
                 <li>{{ resource }}</li>
                 {% endfor %}
             </ul>
@@ -30,10 +30,10 @@
     </article>
 </div>
 <div class="edit">
-    <a class="button icon-right edit-btn" href="{{ url_for('edit_journals', slug=journal.slug) }}">
+    <a class="button icon-right edit-btn" href="{{ url_for('edit_entry', slug=entry.slug) }}">
         <span>Edit Entry</span>
         <i class="material-icons">mode edit</i></a>
-    <a href="{{ url_for('delete_entry', slug=journal.slug) }}" style="color: #da3c14;float: right;">Delete Entry</a>
+    <a href="{{ url_for('delete_entry', slug=entry.slug) }}" style="color: #da3c14;float: right;">Delete Entry</a>
 </div>
 
 {% endblock %}

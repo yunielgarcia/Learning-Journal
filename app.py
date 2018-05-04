@@ -37,56 +37,56 @@ def index():
 
 # LIST JOURNALS
 @app.route('/entries')
-def journals():
-    journals_list = models.Journal.select()
-    return render_template("journal_list.html", journals=journals_list)
+def entries():
+    journals_list = models.Entry.select()
+    return render_template("journal_list.html", entries=journals_list)
 
 
 @app.route('/details/<slug>')
-def journals_detail(slug):
-    journal = models.Journal.get(models.Journal.slug == slug)
-    return render_template('detail.html', journal=journal)
+def entry_detail(slug):
+    entry = models.Entry.get(models.Entry.slug == slug)
+    return render_template('detail.html', entry=entry)
 
 
 # ADD JOURNAL
 @app.route('/entry/add', methods=['GET', 'POST'])
 def add_journals():
-    """Add a new album"""
+    """Add a new entry"""
     form = forms.JournalForm()
     if form.validate_on_submit():
-        models.Journal.create(title=form.title.data.strip(),
-                              slug=slugify(form.title.data),
-                              date=form.date.data,
-                              time_spent=form.time_spent.data,
-                              content_learned=form.content_learned.data,
-                              resources=form.resources.data)
-        flash("Journal was saved", "success")
+        models.Entry.create(title=form.title.data.strip(),
+                            slug=slugify(form.title.data),
+                            date=form.date.data,
+                            time_spent=form.time_spent.data,
+                            content_learned=form.content_learned.data,
+                            resources=form.resources.data)
+        flash("An entry was saved", "success")
         return redirect(url_for('index'))
     return render_template('create.html', form=form)
 
 
 # EDIT JOURNAL
 @app.route('/entry/<slug>/edit', methods=['GET', 'POST'])
-def edit_journals(slug):
+def edit_entry(slug):
     """Edit an entry"""
-    journal = models.Journal.get(models.Journal.slug == slug)
-    form = forms.UpdateEntryForm(title=journal.title,
-                                 date=journal.date,
-                                 time_spent=journal.time_spent,
-                                 content_learned=journal.content_learned,
-                                 resources=journal.resources
+    entry = models.Entry.get(models.Entry.slug == slug)
+    form = forms.UpdateEntryForm(title=entry.title,
+                                 date=entry.date,
+                                 time_spent=entry.time_spent,
+                                 content_learned=entry.content_learned,
+                                 resources=entry.resources
                                  )
     if form.validate_on_submit():
-        models.Journal.update(
-            {models.Journal.title: form.title.data.strip(),
-             models.Journal.slug: slugify(form.title.data),
-             models.Journal.date: form.date.data,
-             models.Journal.time_spent: form.time_spent.data,
-             models.Journal.content_learned: form.content_learned.data,
-             models.Journal.resources: form.resources.data
-             }).where(models.Journal.slug == journal.slug).execute()
-        flash("Journal was updated", "success")
-        return redirect(url_for('journals'))
+        models.Entry.update(
+            {models.Entry.title: form.title.data.strip(),
+             models.Entry.slug: slugify(form.title.data),
+             models.Entry.date: form.date.data,
+             models.Entry.time_spent: form.time_spent.data,
+             models.Entry.content_learned: form.content_learned.data,
+             models.Entry.resources: form.resources.data
+             }).where(models.Entry.slug == entry.slug).execute()
+        flash("Entry was updated", "success")
+        return redirect(url_for('entries'))
 
     return render_template('edit.html', form=form)
 
@@ -95,26 +95,26 @@ def edit_journals(slug):
 @app.route('/entry/<slug>/delete')
 def delete_entry(slug):
     try:
-        entry = models.Journal.get(models.Journal.slug**slug)
+        entry = models.Entry.get(models.Entry.slug ** slug)
     except models.DoesNotExist:
         abort(404)
     else:
         try:
-            models.Journal.get(
+            models.Entry.get(
                 slug=slug
             ).delete_instance()
         except models.IntegrityError:
             pass
         else:
             flash("You have deleted {}!".format(entry.title), "success")
-    return redirect(url_for('journals'))
+    return redirect(url_for('entries'))
 
 
 if __name__ == "__main__":
     models.initialize()
 
     try:
-        models.Journal.create_journal(
+        models.Entry.create_entry(
             title="Initial Journal",
             date=datetime.datetime.now(),
             time_spent=55,

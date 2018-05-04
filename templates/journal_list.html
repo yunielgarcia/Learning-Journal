@@ -2,10 +2,10 @@
 
 {% block content %}
     <div id="home-list" class="entry-list">
-    {% for journal in journals %}
+    {% for journal in entries %}
         <article>
             <h2>
-                <a class="entry-title" href="{{ url_for('journals_detail', slug=journal.slug) }}">{{ journal.title }}</a>
+                <a class="entry-title" href="{{ url_for('entry_detail', slug=journal.slug) }}">{{ journal.title }}</a>
             </h2>
             <time datetime="{{ journal.date }}">{{ journal.date.strftime('%B %d, %Y') }}</time>
         </article>

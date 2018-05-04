@@ -4,7 +4,7 @@ from slugify import slugify
 DATABASE = SqliteDatabase('journal.db')
 
 
-class Journal(Model):
+class Entry(Model):
     slug = CharField(unique=True)
     title = CharField()
     date = DateField()
@@ -19,7 +19,7 @@ class Journal(Model):
         order_by = ('-date',)
 
     @classmethod
-    def create_journal(cls, title, date, time_spent, content_learned, resources):
+    def create_entry(cls, title, date, time_spent, content_learned, resources):
         try:
             with DATABASE.transaction():
                 cls.create(
@@ -31,11 +31,11 @@ class Journal(Model):
                     resources=resources
                 )
         except IntegrityError:  # Meaning a field already exits
-            print('error initialation')
+            print('error initialization')
             raise ValueError("Journal with that title already exists")
 
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Journal], safe=True)
+    DATABASE.create_tables([Entry], safe=True)
     DATABASE.close()

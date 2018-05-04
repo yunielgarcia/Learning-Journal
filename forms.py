@@ -5,11 +5,11 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import (DataRequired, ValidationError,
                                 Length, Optional)
 
-from models import Journal
+from models import Entry
 
 
 def title_exists(form, field):
-    if Journal.select().where(Journal.slug == slugify(field.data)).exists():
+    if Entry.select().where(Entry.slug == slugify(field.data)).exists():
         raise ValidationError('Journal with that title already exists.')
 
 
